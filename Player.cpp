@@ -5,7 +5,7 @@
 Player::Player(std::string playerName) {
     name = playerName;
     balance = 10000; // Starting baseline liquidity fund
-    currentPosition = 0; // Starts at Tile 0 (Start)
+    currentPosition = 0; // Starts at Tile 0 
     currentCareer = "Unemployed";
     ownedHouse = "None";
 }
