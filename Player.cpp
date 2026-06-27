@@ -36,3 +36,14 @@ void Player::updateCareer(std::string newJob) {
 void Player::updateHouse(std::string newHouse) {
     ownedHouse = newHouse;
 }
+
+void Player::displayHUD() const {
+    std::cout << "\n======================================\n";
+    std::cout << "  PLAYER CONTROL PANEL: " << name << "\n";
+    std::cout << "======================================\n";
+    std::cout << "  Current Liquidity Wallet : $" << balance << "\n";
+    std::cout << "  Job Title Specification  : " << currentCareer << "\n";
+    std::cout << "  Real Estate Assets       : " << ownedHouse << "\n";
+    std::cout << "  Matrix Grid Coordinates  : Tile " << currentPosition << "/100\n";
+    std::cout << "======================================\n";
+}
