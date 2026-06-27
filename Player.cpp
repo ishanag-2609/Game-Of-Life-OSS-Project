@@ -9,3 +9,9 @@ Player::Player(std::string playerName) {
     currentCareer = "Unemployed";
     ownedHouse = "None";
 }
+
+std::string Player::getName() const { return name; }
+long Player::getBalance() const { return balance; }
+int Player::getPosition() const { return currentPosition; }
+std::string Player::getCareer() const { return currentCareer; }
+std::string Player::getHouse() const { return ownedHouse; }
