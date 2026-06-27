@@ -20,3 +20,11 @@ void Player::updateBalance(long amount) {
     balance += amount;
     std::cout << "Balance updated by: $" << amount << " | Total: $" << balance << "\n";
 }
+
+void Player::movePlayer(int steps) {
+    currentPosition += steps;
+    if (currentPosition > 100) {
+        currentPosition = 100; // Cap at Retirement Gate boundary
+    }
+    std::cout << name << " moved " << steps << " steps forward to Tile: " << currentPosition << "/100\n";
+}
