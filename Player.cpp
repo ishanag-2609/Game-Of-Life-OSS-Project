@@ -28,3 +28,7 @@ void Player::movePlayer(int steps) {
     }
     std::cout << name << " moved " << steps << " steps forward to Tile: " << currentPosition << "/100\n";
 }
+
+void Player::updateCareer(std::string newJob) {
+    currentCareer = newJob;
+}
