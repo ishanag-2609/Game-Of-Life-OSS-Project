@@ -32,3 +32,7 @@ void Player::movePlayer(int steps) {
 void Player::updateCareer(std::string newJob) {
     currentCareer = newJob;
 }
+
+void Player::updateHouse(std::string newHouse) {
+    ownedHouse = newHouse;
+}
