@@ -15,3 +15,8 @@ long Player::getBalance() const { return balance; }
 int Player::getPosition() const { return currentPosition; }
 std::string Player::getCareer() const { return currentCareer; }
 std::string Player::getHouse() const { return ownedHouse; }
+
+void Player::updateBalance(long amount) {
+    balance += amount;
+    std::cout << "Balance updated by: $" << amount << " | Total: $" << balance << "\n";
+}
