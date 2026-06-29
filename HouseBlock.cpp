@@ -32,4 +32,10 @@ if (p.getBalance() < targetCost) {
     std::cout << "❌ Transaction Denied: Insufficient liquidity capital to close this deal!\n";
     return;
 }
+// Processing valid asset acquisition
+p.updateBalance(-targetCost);
+p.updateHouse(houses[choice - 1]);
+std::cout << "🎉 Deal closed! You are now the official owner of a: "
+          << houses[choice - 1] << "!\n";
+std::cout << "=======================================\n";
 }
