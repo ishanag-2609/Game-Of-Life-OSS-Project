@@ -20,4 +20,16 @@ void HouseBlock::trigger(Player& p) {
     int choice;
     std::cout << "Select a listing to purchase (1-4): ";
     std::cin >> choice;
+    // Insert inside HouseBlock::trigger right after input
+if (choice == 4 || choice < 1 || choice > 4) {
+    std::cout << "You skipped real estate expansion this turn.\n";
+    return;
+}
+
+long targetCost = costs[choice - 1];
+
+if (p.getBalance() < targetCost) {
+    std::cout << "❌ Transaction Denied: Insufficient liquidity capital to close this deal!\n";
+    return;
+}
 }
