@@ -47,8 +47,7 @@ board[pos].description = "Casino Zone! Wager assets on probability rules.";
 for (int i = 1; i < 100; i++) {
 if (board[i].type == EMPTY && (i % 10 == 3 || i % 10 == 7)) {
 board[i].type = EVENT;
-board[i].description = "Dynamic Incident! Prepare for windfalls or
-emergencies.";
+board[i].description = "Dynamic Incident! Prepare for windfalls or emergencies.";
 }
 }
 
