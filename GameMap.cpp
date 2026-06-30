@@ -55,3 +55,29 @@ return EMPTY; // Safe fallback guard
 }
 return board[position].type;
 }
+
+void GameMap::renderBoardProgress(int playerPosition) const {
+std::cout << "\n BOARD TRACKER MAP:\n[";
+// Determine a localized 10-tile viewing window around the player
+int startView = (playerPosition / 10) * 10;
+int endView = startView + 10;
+if (endView > 100) endView = 100;
+for (int i = startView; i <= endView; i++) {
+if (i == playerPosition) {
+std::cout << " "; // Represent player presence icon
+} else {
+switch (board[i].type) {
+case START: std::cout << " "; break;
+case CAREER: std::cout << " "; break;
+case PAYDAY: std::cout << " "; break;
+case HOUSE: std::cout << " "; break;
+case EVENT: std::cout << " "; break;
+case GAMBLE: std::cout << " "; break;
+case FINISH: std::cout << " "; break;
+default: std::cout << " "; break;
+}
+}
+}
+std::cout << "] (Tile " << playerPosition << "/100)\n";
+std::cout << " Current Tile Details: " << board[playerPosition].description << "\n";
+}
