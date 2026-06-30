@@ -20,8 +20,7 @@ if (choice != 1)
 }
 if (p.getBalance() < 2000)
 {
-    std::cout << "❌ Access Denied: Insufficient capital available to purchase a 
-                 ticket.\n ";
+    std::cout << "❌ Access Denied: Insufficient capital available to purchase a ticket.\n ";
                  return;
 }
 std::cout << "Predict the dice outcome number (Select between 1 and 6): ";
