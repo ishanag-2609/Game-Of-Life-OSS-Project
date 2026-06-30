@@ -35,3 +35,14 @@ if (guess < 1 || guess > 6)
 std::srand(std::time(0));
 int actualRoll = (std::rand() % 6) + 1;
 std::cout << "The wheel drops the sphere onto value: [" << actualRoll << "]\n";
+if (guess == actualRoll)
+{
+    std::cout << "🎯 JACKPOT! Dynamic prediction validated. You win $6000!\n";
+    p.updateBalance(6000);
+}
+else
+{
+    std::cout << "❌ Missed guess. House claims ticket assets. Deducting $2000.\n";
+    p.updateBalance(-2000);
+}
+std::cout << "=======================================\n";
