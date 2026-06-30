@@ -13,3 +13,18 @@ board[0].description = "The beginning of your life journey.";
 board[100].type = FINISH;
 board[100].description = "The Retirement Gate!";
 }
+
+void GameMap::generateMapLayout() {
+// Distribute Career Blocks at fixed spaces (e.g., 5, 25, 55)
+int careerSpots[] = {5, 25, 55};
+for (int pos : careerSpots) {
+board[pos].type = CAREER;
+board[pos].description = "Career Milestone! Choose or upgrade occupations.";
+}
+// Distribute Real Estate House Blocks (e.g., 15, 45, 75)
+int houseSpots[] = {15, 45, 75};
+for (int pos : houseSpots) {
+board[pos].type = HOUSE;
+board[pos].description = "Real Estate Opportunity! Purchase property options.";
+}
+}
