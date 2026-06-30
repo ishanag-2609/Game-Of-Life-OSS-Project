@@ -1,6 +1,8 @@
-#include<iostream>
-using namespace std;
-int main(){
+#include "Game.h"
 
-  cout<<"Welcome to Game OF Life";
+int main()
+{
+  Game lifeGame;
+  lifeGame.run();
+  return 0;
 }
