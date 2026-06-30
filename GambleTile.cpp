@@ -24,3 +24,14 @@ if (p.getBalance() < 2000)
                  ticket.\n ";
                  return;
 }
+std::cout << "Predict the dice outcome number (Select between 1 and 6): ";
+int guess;
+std::cin >> guess;
+if (guess < 1 || guess > 6)
+{
+    std::cout << "Invalid selection. Ticket nullified by table rules.\n";
+    return;
+}
+std::srand(std::time(0));
+int actualRoll = (std::rand() % 6) + 1;
+std::cout << "The wheel drops the sphere onto value: [" << actualRoll << "]\n";
