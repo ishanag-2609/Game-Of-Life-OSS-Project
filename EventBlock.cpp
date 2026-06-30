@@ -9,3 +9,11 @@ const std::string EventBlock::events[4] = {
     "Automobile Malfunction! Repair cost allocations deducted.",
     "Innocent Lottery Prize! Cash award credited directly to your profile."};
 const long EventBlock::financialImpact[4] = {-2500, 5000, -1200, 3000};
+void EventBlock::trigger(Player &p)
+{
+    // Seed random selection pool locally
+    std::srand(std::time(0));
+    int randomIndex = std::rand() % 4;
+    std::cout << "\n⚡ === DYNAMIC LIFE INCIDENT === ⚡\n";
+    std::cout << "Event: " << events[randomIndex] << "\n";
+}
