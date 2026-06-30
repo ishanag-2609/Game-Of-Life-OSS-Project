@@ -17,3 +17,7 @@ void EventBlock::trigger(Player &p)
     std::cout << "\n⚡ === DYNAMIC LIFE INCIDENT === ⚡\n";
     std::cout << "Event: " << events[randomIndex] << "\n";
 }
+// Insert inside EventBlock::trigger right after message display
+long delta = financialImpact[randomIndex];
+p.updateBalance(delta);
+std::cout << "=======================================\n";
