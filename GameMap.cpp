@@ -47,6 +47,9 @@ board[i].description = "Dynamic Incident! Prepare for windfalls or
 emergencies.";
 }
 }
+board[35].description = "The Grand Royale Casino Lounge.";
+board[55].description = "Mid-Life Career Crisis Point! Upgrade parameters.";
+board[85].description = "High-Stakes Las Vegas Underground Wagers.";
 }
 
 TileType GameMap::getTileType(int position) const {
