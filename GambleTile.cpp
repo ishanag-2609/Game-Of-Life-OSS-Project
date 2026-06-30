@@ -12,3 +12,15 @@ void GambleTile::trigger(Player &p)
     int choice;
     std::cin >> choice;
 }
+// Insert inside GambleTile::trigger right after input choice
+if (choice != 1)
+{
+    std::cout << "You opted out of the casino table games safely.\n";
+    return;
+}
+if (p.getBalance() < 2000)
+{
+    std::cout << "❌ Access Denied: Insufficient capital available to purchase a 
+                 ticket.\n ";
+                 return;
+}
