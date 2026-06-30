@@ -48,3 +48,10 @@ emergencies.";
 }
 }
 }
+
+TileType GameMap::getTileType(int position) const {
+if (position < 0 || position > 100) {
+return EMPTY; // Safe fallback guard
+}
+return board[position].type;
+}
