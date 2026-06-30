@@ -11,7 +11,7 @@ void GambleTile::trigger(Player &p)
     std::cout << "Would you like to play? (1 for Yes, 0 for No): ";
     int choice;
     std::cin >> choice;
-}
+
 // Insert inside GambleTile::trigger right after input choice
 if (choice != 1)
 {
@@ -45,4 +45,4 @@ else
     std::cout << "❌ Missed guess. House claims ticket assets. Deducting $2000.\n";
     p.updateBalance(-2000);
 }
-std::cout << "=======================================\n";
+std::cout << "=======================================\n";}
