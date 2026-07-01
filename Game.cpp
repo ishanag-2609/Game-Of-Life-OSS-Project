@@ -13,7 +13,18 @@ Game::Game() : player("Player1")
     currentTurn = 1;
     map.generateMapLayout();
 }
-
+void Game::initializeGame()
+{
+    std::cout << "\n========================================\n";
+    std::cout << "     GAME OF LIFE: 100 TILE EDITION     \n";
+    std::cout << "========================================\n";
+    std::cout << " Starting Balance : $10,000\n";
+    std::cout << " Reach Tile 100 to WIN!\n";
+    std::cout << " Balance hits 0 = GAME OVER\n";
+    std::cout << "========================================\n";
+    std::cout << " Press Enter to begin your journey...\n";
+    std::cin.get();
+}
 void Game::run()
 {
     initializeGame();
