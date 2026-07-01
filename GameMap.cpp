@@ -71,18 +71,18 @@ int endView = startView + 10;
 if (endView > 100) endView = 100;
 for (int i = startView; i <= endView; i++) {
 if (i == playerPosition) {
-std::cout << " "; // Represent player presence icon
+    std::cout << " X |";
 } else {
-switch (board[i].type) {
-case START: std::cout << " "; break;
-case CAREER: std::cout << " "; break;
-case PAYDAY: std::cout << " "; break;
-case HOUSE: std::cout << " "; break;
-case EVENT: std::cout << " "; break;
-case GAMBLE: std::cout << " "; break;
-case FINISH: std::cout << " "; break;
-default: std::cout << " "; break;
-}
+    switch (board[i].type) {
+        case START:  std::cout << " S |"; break;
+        case CAREER: std::cout << " C |"; break;
+        case PAYDAY: std::cout << " P |"; break;
+        case HOUSE:  std::cout << " H |"; break;
+        case EVENT:  std::cout << " $ |"; break;
+        case GAMBLE: std::cout << " G |"; break;
+        case FINISH: std::cout << " F |"; break;
+        default:     std::cout << " . |"; break;
+    }
 }
 }
 std::cout << "] (Tile " << playerPosition << "/100)\n";
