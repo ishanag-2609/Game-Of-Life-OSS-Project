@@ -64,27 +64,35 @@ return board[position].type;
 }
 
 void GameMap::renderBoardProgress(int playerPosition) const {
-std::cout << "\n BOARD TRACKER MAP:\n[";
-// Determine a localized 10-tile viewing window around the player
-int startView = (playerPosition / 10) * 10;
-int endView = startView + 10;
-if (endView > 100) endView = 100;
-for (int i = startView; i <= endView; i++) {
-if (i == playerPosition) {
-    std::cout << " X |";
-} else {
-    switch (board[i].type) {
-        case START:  std::cout << " S |"; break;
-        case CAREER: std::cout << " C |"; break;
-        case PAYDAY: std::cout << " P |"; break;
-        case HOUSE:  std::cout << " H |"; break;
-        case EVENT:  std::cout << " $ |"; break;
-        case GAMBLE: std::cout << " G |"; break;
-        case FINISH: std::cout << " F |"; break;
-        default:     std::cout << " . |"; break;
+    std::cout << "\n GAME OF LIFE - BOARD MAP\n";
+    std::cout << " +----+----+----+----+----+----+----+----+----+----+\n";
+
+    // Print 10 rows of 10 tiles each
+    for (int row = 0; row < 10; row++) {
+        int start = row * 10;
+        int end   = start + 9;
+
+        std::cout << " |";
+        for (int i = start; i <= end; i++) {
+            if (i == playerPosition) {
+                std::cout << " X |";
+            } else {
+                switch (board[i].type) {
+                    case START:  std::cout << " S |"; break;
+                    case CAREER: std::cout << " C |"; break;
+                    case PAYDAY: std::cout << " P |"; break;
+                    case HOUSE:  std::cout << " H |"; break;
+                    case EVENT:  std::cout << " $ |"; break;
+                    case GAMBLE: std::cout << " G |"; break;
+                    case FINISH: std::cout << " F |"; break;
+                    default:     std::cout << " . |"; break;
+                }
+            }
+        }
+        std::cout << "\n";
+        std::cout << " +----+----+----+----+----+----+----+----+----+----+\n";
     }
-}
-}
-std::cout << "] (Tile " << playerPosition << "/100)\n";
-std::cout << " Current Tile Details: " << board[playerPosition].description << "\n";
+
+    std::cout << "\n Tile " << playerPosition << "/100 : "
+              << board[playerPosition].description << "\n";
 }
