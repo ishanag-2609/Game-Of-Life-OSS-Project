@@ -1,98 +1,82 @@
 // GameMap.cpp
 #include "GameMap.h"
 #include <iostream>
+#include <cstdlib>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+// ---- local console helpers (kept internal to this file) ----
+static void cls() {
+#ifdef _WIN32
+system("cls");
+#else
+system("clear");
+#endif
+}
 GameMap::GameMap() {
-// Fill the board with baseline safe tiles first
-for (int i = 0; i <= 100; i++) {
-board[i].position = i;
-board[i].type = EMPTY;
-board[i].description = "A quiet, peaceful path.";
+// 1. Fill every tile with a safe default (NORMAL)
+for (int i = 0; i < TOTAL_TILES; i++) {
+tiles[i].position = i;
+tiles[i].type = NORMAL;
+tiles[i].symbol = '.';
+tiles[i].label = "NORMAL";
 }
-board[0].type = START;
-board[0].description = "The beginning of your life journey.";
-board[100].type = FINISH;
-board[100].description = "The Retirement Gate!";
+// 2. Start / Finish
+tiles[0] = Tile{0, START, 'S', "START"};
+tiles[TOTAL_TILES - 1] = Tile{TOTAL_TILES - 1, FINISH, 'F', "FINISH"};
+// 3. Career tile (forced stop)
+tiles[20] = Tile{20, CAREER, 'C', "CAREER"};
+// 4. House tile (forced stop)
+tiles[55] = Tile{55, HOUSE, 'H', "HOUSE"};
+// 5. Payday tiles (auto-collect while passing through)
+int paydaySpots[] = {10, 25, 36, 43, 51, 61, 71, 81, 90, 98};
+for (int pos : paydaySpots) {
+tiles[pos] = Tile{pos, PAYDAY, 'P', "PAYDAY"};
 }
-
-void GameMap::generateMapLayout() {
-
-// Distribute Career Blocks at fixed spaces (e.g., 5, 25, 55)
-int careerSpots[] = {5, 25, 55};
-for (int pos : careerSpots) {
-board[pos].type = CAREER;
-board[pos].description = "Career Milestone! Choose or upgrade occupations.";
-}
-
-// Distribute Real Estate House Blocks (e.g., 15, 45, 75)
-int houseSpots[] = {15, 45, 75};
-for (int pos : houseSpots) {
-board[pos].type = HOUSE;
-board[pos].description = "Real Estate Opportunity! Purchase property options.";
-}
-
-// Payday every 10 spaces starting from tile 10
-for (int i = 10; i < 100; i += 10) {
-board[i].type = PAYDAY;
-board[i].description = "Payday! Collect your standard salary revenue.";
-}
-
-// Gamble spots (e.g., 35, 65, 85)
-int gambleSpots[] = {35, 65, 85};
+// 6. Gamble tiles (non-forced stop)
+int gambleSpots[] = {15, 31, 38, 44, 60, 64, 73, 75, 86, 92};
 for (int pos : gambleSpots) {
-board[pos].type = GAMBLE;
-board[pos].description = "Casino Zone! Wager assets on probability rules.";
+tiles[pos] = Tile{pos, GAMBLE, 'G', "GAMBLE"};
 }
-
-// Assign generic random life events to any remaining spots ending in 3 or 7
-for (int i = 1; i < 100; i++) {
-if (board[i].type == EMPTY && (i % 10 == 3 || i % 10 == 7)) {
-board[i].type = EVENT;
-board[i].description = "Dynamic Incident! Prepare for windfalls or emergencies.";
+// 7. Event tiles (non-forced stop)
+int eventSpots[] = {2, 4, 6, 7, 8, 9, 11, 13, 16, 18, 22, 24, 27, 29,
+33, 35, 37, 42, 46, 50, 52, 57, 63, 66, 70, 72,
+78, 84, 88, 93, 95, 97};
+for (int pos : eventSpots) {
+// Don't overwrite a tile that already has a special assignment
+if (tiles[pos].type == NORMAL) {
+tiles[pos] = Tile{pos, EVENT, '$', "EVENT"};
 }
 }
-
-board[35].description = "The Grand Royale Casino Lounge.";
-board[55].description = "Mid-Life Career Crisis Point! Upgrade parameters.";
-board[85].description = "High-Stakes Las Vegas Underground Wagers.";
 }
-
 TileType GameMap::getTileType(int position) const {
-if (position < 0 || position > 100) {
-return EMPTY; // Safe fallback guard
-}
-return board[position].type;
+if (position < 0 || position >= TOTAL_TILES) return NORMAL;
+return tiles[position].type;
 }
 
-void GameMap::renderBoardProgress(int playerPosition) const {
-    std::cout << "\n GAME OF LIFE - BOARD MAP\n";
-    std::cout << " +----+----+----+----+----+----+----+----+----+----+\n";
-
-    // Print 10 rows of 10 tiles each
-    for (int row = 0; row < 10; row++) {
-        int start = row * 10;
-        int end   = start + 9;
-
-        std::cout << " |";
-        for (int i = start; i <= end; i++) {
-            if (i == playerPosition) {
-                std::cout << " X |";
-            } else {
-                switch (board[i].type) {
-                    case START:  std::cout << " S |"; break;
-                    case CAREER: std::cout << " C |"; break;
-                    case PAYDAY: std::cout << " P |"; break;
-                    case HOUSE:  std::cout << " H |"; break;
-                    case EVENT:  std::cout << " $ |"; break;
-                    case GAMBLE: std::cout << " G |"; break;
-                    case FINISH: std::cout << " F |"; break;
-                    default:     std::cout << " . |"; break;
-                }
-            }
-        }
-        std::cout << "\n";
-        std::cout << " +----+----+----+----+----+----+----+----+----+----+\n";
-    }
-
-    std::cout << "\n Tile " << playerPosition << "/100 : "
-              << board[playerPosition].description << "\n";
+Tile GameMap::getTile(int position) const {
+if (position < 0 || position >= TOTAL_TILES) return tiles[0];
+return tiles[position];
+}
+void GameMap::draw(int playerPos) const {
+std::string border = "+----------------------------------------+";
+std::cout << "\n GAME OF LIFE - 100 TILE MAP\n";
+std::cout << " " << border << "\n";
+for (int row = 0; row < 10; row++) {
+int start, end, step;
+// Boustrophedon (snake) layout, same rows as the original console map
+if (row % 2 == 0) { start = row * 10; end = row * 10 + 9; step = 1; }
+else { start = row * 10 + 9; end = row * 10; step = -1; }
+std::cout << " |";
+for (int t = start; step > 0 ? t <= end : t >= end; t += step) {
+if (t == playerPos) std::cout << " X |";
+else std::cout << " " << tiles[t].symbol << " |";
+}
+std::cout << "\n";
+}
+std::cout << " " << border << "\n\n";
+}
+void GameMap::redraw(int playerPos) const {
+cls();
+draw(playerPos);
 }

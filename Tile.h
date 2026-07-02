@@ -1,10 +1,11 @@
+// Tile.h
 #ifndef TILE_H
 #define TILE_H
 #include <string>
 // Explicit mapping of what kind of block a tile can be
 enum TileType {
 START,
-EMPTY,
+NORMAL,
 CAREER,
 PAYDAY,
 HOUSE,
@@ -15,6 +16,7 @@ FINISH
 struct Tile {
 int position;
 TileType type;
-std::string description;
+char symbol; // Character shown on the console map (S, ., C, P, H, $, G, F)
+std::string label; // Short label used when printing tile info
 };
 #endif
