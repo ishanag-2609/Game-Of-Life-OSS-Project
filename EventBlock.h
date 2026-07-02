@@ -5,8 +5,10 @@
 #include <string>
 class EventBlock {
 private:
-    static const std::string events[4];
-    static const long financialImpact[4];
+    static const std::string payEvents[30];
+    static const long payCost[30];
+    static const std::string winEvents[30];
+    static const long winAmount[30];
 public:
     static void trigger(Player& p);
 };
