@@ -2,21 +2,22 @@
 #define GAME_H
 #include "Player.h"
 #include "GameMap.h"
-
-class Game
-{
+class Game {
 private:
-    bool gameOver;
-    int currentTurn;
     Player player;
-GameMap map;
-
+    GameMap gmap;
+    void showIntro();
+    void showWin();
+    void showGameOver();
+    // Moves the player step by step; returns true if movement stopped
+    // early at a forced tile (Career, House, Finish).
+    bool movePlayer(int dice);
+    // Dispatches to the correct forced-tile handler (Career / House).
+    // Returns false if handling the tile ended the game (e.g. couldn't
+    // afford any house).
+    bool handleTile();
 public:
     Game();
-    void initializeGame();
     void run();
-    void checkWinLossConditions();
 };
-
 #endif
-
