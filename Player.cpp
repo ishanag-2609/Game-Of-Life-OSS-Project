@@ -4,49 +4,66 @@
 
 Player::Player(std::string playerName) {
     name = playerName;
-    balance = 10000; // Starting baseline liquidity fund
-    currentPosition = 0; // Starts at Tile 0 
-    currentCareer = "Unemployed";
+    money = 15000;          // Starting money, as per the game design
+    currentPosition = 0;    // Starts at tile 0 (START)
+    currentCareer = "None";
+    salary = 0;
     ownedHouse = "None";
+    housePrice = 0;
 }
 
 std::string Player::getName() const { return name; }
-long Player::getBalance() const { return balance; }
+long Player::getBalance() const { return money; }
 int Player::getPosition() const { return currentPosition; }
 std::string Player::getCareer() const { return currentCareer; }
+long Player::getSalary() const { return salary; }
 std::string Player::getHouse() const { return ownedHouse; }
+long Player::getHousePrice() const { return housePrice; }
 
 void Player::updateBalance(long amount) {
-    balance += amount;
-    std::cout << "Balance updated by: $" << amount << " | Total: $" << balance << "\n";
+    money += amount;
+}
+
+void Player::setPosition(int pos) {
+    currentPosition = pos;
 }
 
 void Player::movePlayer(int steps) {
     currentPosition += steps;
-    if (currentPosition > 100) {
-        currentPosition = 100; // Cap at Retirement Gate boundary
+    if (currentPosition > 99) {
+        currentPosition = 99; // Cap at Finish tile
     }
-    std::cout << name << " moved " << steps << " steps forward to Tile: " << currentPosition << "/100\n";
 }
 
-void Player::updateCareer(std::string newJob) {
+void Player::updateCareer(const std::string& newJob, long newSalary) {
     currentCareer = newJob;
+    salary = newSalary;
 }
 
-void Player::updateHouse(std::string newHouse) {
+void Player::updateHouse(const std::string& newHouse, long price) {
     ownedHouse = newHouse;
+    housePrice = price;
+}
+
+void Player::showStatus(const std::string& tileLabel) const {
+    std::cout << "\n====================================\n";
+    std::cout << " INVENTORY / STATUS \n";
+    std::cout << "====================================\n";
+    std::cout << " Money       : $" << money << "\n";
+    std::cout << " Tile        : " << currentPosition << "/99 (" << tileLabel << ")\n";
+    std::cout << " Career      : " << currentCareer << "\n";
+    std::cout << " Salary      : $" << salary << " per payday\n";
+    std::cout << " House       : " << ownedHouse << "\n";
+    std::cout << " House cost  : $" << housePrice << "\n";
+    std::cout << "====================================\n";
 }
 
 void Player::displayHUD() const {
-    std::cout << "\n======================================\n";
-    std::cout << "  PLAYER CONTROL PANEL: " << name << "\n";
-    std::cout << "======================================\n";
-    std::cout << "  Current Liquidity Wallet : $" << balance << "\n";
-    std::cout << "  Job Title Specification  : " << currentCareer << "\n";
-    std::cout << "  Real Estate Assets       : " << ownedHouse << "\n";
-    std::cout << "  Matrix Grid Coordinates  : Tile " << currentPosition << "/100\n";
-    std::cout << "======================================\n";
+    std::cout << "\n===========\n";
+    std::cout << " PLAYER CONTROL PANEL: " << name << "\n";
+    std::cout << "===========\n";
+    std::cout << " Money    : $" << money << "\n";
+    std::cout << " Career   : " << currentCareer << "\n";
+    std::cout << " House    : " << ownedHouse << "\n";
+    std::cout << " Position : Tile " << currentPosition << "/99\n";
 }
-
-
-// work done by 2501030277, 10 commits done.
