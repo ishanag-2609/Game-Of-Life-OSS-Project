@@ -1,41 +1,73 @@
 // HouseBlock.cpp
 #include "HouseBlock.h"
 #include <iostream>
-const std::string HouseBlock::houses[3] = {"Suburban Condo", "Luxury Apartment", 
-"Metropolitan Mansion"};
-const long HouseBlock::costs[3] = {40000, 75000, 150000};
-
-void HouseBlock::trigger(Player& p) {
-    std::cout << "\n🏠 === REAL ESTATE INVESTMENTS === 🏠\n";
-    std::cout << "Your current liquidity capital: $" << p.getBalance() << "\n";
-    std::cout << "Available listings on the market:\n";
-
-    for (int i = 0; i < 3; i++) {
-        std::cout << i + 1 << ". " << houses[i]
-                  << " (Cost: $" << costs[i] << ")\n";
+#include <limits>
+const HouseBlock::HouseOption HouseBlock::houses[6] = {
+    {"Studio Apartment",  25000},
+    {"1BHK Flat",         45000},
+    {"2BHK Apartment",    70000},
+    {"3BHK Apartment",    95000},
+    {"Suburban Villa",   150000},
+    {"Luxury Penthouse", 250000}
+};
+void HouseBlock::display(int choice) {
+    switch (choice) {
+ case 1: std::cout << "Congratulations on owning your very own studio apartment!\n"; break;
+        case 2: std::cout << "Congratulations on your 1BHK flat, a smart investment!\n"; break;
+        case 3: std::cout << "Congratulations on your spacious 2BHK apartment!\n"; break;
+        case 4: std::cout << "Congratulations on your magnificent 3BHK apartment!\n"; break;
+        case 5: std::cout << "Congratulations on your stunning suburban villa!\n"; break;
+        case 6: std::cout << "Congratulations on your magnificent luxury penthouse!\n"; break;
+        default: break;
     }
-
-    std::cout << "4. Pass (Do not invest in real estate right now)\n";
-
-    int choice;
-    std::cout << "Select a listing to purchase (1-4): ";
-    std::cin >> choice;
-    // Insert inside HouseBlock::trigger right after input
-if (choice == 4 || choice < 1 || choice > 4) {
-    std::cout << "You skipped real estate expansion this turn.\n";
-    return;
 }
-
-long targetCost = costs[choice - 1];
-
-if (p.getBalance() < targetCost) {
-    std::cout << "❌ Transaction Denied: Insufficient liquidity capital to close this deal!\n";
-    return;
-}
-// Processing valid asset acquisition
-p.updateBalance(-targetCost);
-p.updateHouse(houses[choice - 1]);
-std::cout << "🎉 Deal closed! You are now the official owner of a: "
-          << houses[choice - 1] << "!\n";
-std::cout << "=======================================\n";
+bool HouseBlock::trigger(Player& p) {
+    std::cout << "------------------------------------\n";
+    std::cout << " HOUSE TILE!\n";
+    std::cout << "------------------------------------\n";
+    std::cout << " Your Money: $" << p.getBalance() << "\n\n";
+    bool canAffordAny = false;
+    for (int i = 0; i < 6; i++) {
+        if (p.getBalance() >= houses[i].price) { canAffordAny = true; break; }
+    }
+    std::cout << " #   House                Price      Status\n";
+    std::cout << " ---------------------------------------------------\n";
+    for (int i = 0; i < 6; i++) {
+        std::string name = houses[i].name;
+        while ((int)name.length() < 20) name += " ";
+        std::cout << " [" << i + 1 << "] " << name << " $" << houses[i].price;
+        std::cout << (p.getBalance() >= houses[i].price ? " [CAN BUY]" : " [too expensive]");
+        std::cout << "\n";
+    }
+    if (!canAffordAny) {
+        std::cout << "\n------------------------------------\n";
+        std::cout << " You couldn't save enough for a house. GAME OVER!\n";
+        std::cout << "------------------------------------\n";
+        return false;
+    }
+    int choice = 0;
+    while (true) {
+        std::cout << "\n Choose a house (1-6): ";
+        std::cin >> choice;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        if (choice < 1 || choice > 6) {
+            std::cout << " Invalid choice. Try again.\n";
+            continue;
+        }
+        if (p.getBalance() < houses[choice - 1].price) {
+            std::cout << " You cannot afford that! Choose another.\n";
+            continue;
+        }
+        break;
+    }
+    p.updateBalance(-houses[choice - 1].price);
+    p.updateHouse(houses[choice - 1].name, houses[choice - 1].price);
+    std::cout << "------------------------------------\n";
+    std::cout << " You bought: " << houses[choice - 1].name << "!\n";
+    std::cout << " Money left: $" << p.getBalance() << "\n";
+    display(choice);
+    std::cout << "------------------------------------\n";
+    std::cout << "\n Press Enter to continue...";
+    std::cin.get();
+    return true;
 }

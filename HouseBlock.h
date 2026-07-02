@@ -1,16 +1,15 @@
+// HouseBlock.h
 #ifndef HOUSEBLOCK_H
 #define HOUSEBLOCK_H
-
 #include "Player.h"
 #include <string>
-
 class HouseBlock {
 private:
-    static const std::string houses[3];
-    static const long costs[3];
-
+    struct HouseOption { std::string name; long price; };
+    static const HouseOption houses[6];
+    static void display(int choice);
 public:
-    static void trigger(Player& p);
+    // Returns false if the player could not afford any house (game over condition)
+    static bool trigger(Player& p);
 };
-
 #endif
